@@ -7,8 +7,9 @@ const groceryListSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        user: {
-            type: String,
+        items: {
+            type: [String],
+            default: [],
             required: true,
         }
     },

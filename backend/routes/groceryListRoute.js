@@ -5,13 +5,13 @@ const router = express.Router();
 
 router.post("/", async (request, response) => {
     try {
-        if (!request.body.name || !request.body.user) {
-            return response.status(400).send({ message: "missing required fields: name, user" });
+        if (!request.body.name || !request.body.items) {
+            return response.status(400).send({ message: "missing required fields: name, items" });
         }
 
         const newGroceryList = {
             name: request.body.name,
-            user: request.body.user,
+            items: request.body.items,
         };
 
         const groceryList = await GroceryList.create(newGroceryList);
@@ -51,12 +51,15 @@ router.get("/:id", async (request, response) => {
 
 router.put("/:id", async (request, response) => {
     try {
-        if (!request.body.name || !request.body.user) {
-            return response.status(400).send({ message: "missing required fields: name, user "});
+        if (!request.body.name || !request.body.items) {
+            return response.status(400).send({ message: "missing required fields: name, items "});
         }
 
         const { id } = request.params;
-        const result = await GroceryList.findByIdAndUpdate(id, request.body);
+        const result = await GroceryList.findByIdAndUpdate(id, {
+            name: request.body.name,
+            items: request.body.items,
+        });
 
         if (!result) {
             return response.status(404).send({ message: error.message });
